@@ -105,13 +105,13 @@ the zone apex.</t>
 </section>
 <section anchor="cname-works-for-subdomains" title="CNAME works for subdomains">
 
-<t>For websites using a subdomain such as “www”, this is simply done in DNS using CNAME:</t>
+<t>For websites using a subdomain such as “www”, this is simply done in DNS using CNAME and pointing to a target URL provided by the CDN:</t>
 
 <figure><artwork><![CDATA[
 www.example.com  300  IN  CNAME a123qkt5y7xxb3df8.example-cdn.net
 ]]></artwork></figure>
 
-<t>Now all web traffic to www.example.com is redirected to the CDN address. The CDN returns the appropriate records. All is fine.</t>
+<t>Now all web traffic to www.example.com is redirected to the CDN address. The CDN returns the appropriate A and AAAA records. This all works and the browser connects to the site hosted on one of the CDN edge servers.</t>
 
 </section>
 <section anchor="cname-at-apex-does-not-work" title="CNAME at apex does not work">
@@ -279,8 +279,34 @@ when, and only when, they appear in all capitals, as shown here.</t>
 <seriesInfo name='DOI' value='10.17487/RFC1034'/>
 </reference>
 
-<reference anchor="RFC2052"> <front> <title>*** BROKEN REFERENCE ***</title> <author> <organization/> </author> <date/> </front> </reference>
-<reference anchor="RFC7553"> <front> <title>*** BROKEN REFERENCE ***</title> <author> <organization/> </author> <date/> </front> </reference>
+
+
+<reference  anchor="RFC2052" target='https://www.rfc-editor.org/info/rfc2052'>
+<front>
+<title>A DNS RR for specifying the location of services (DNS SRV)</title>
+<author initials='A.' surname='Gulbrandsen' fullname='A. Gulbrandsen'><organization /></author>
+<author initials='P.' surname='Vixie' fullname='P. Vixie'><organization /></author>
+<date year='1996' month='October' />
+<abstract><t>This document describes a DNS RR which specifies the location of the server(s) for a specific protocol and domain (like a more general form of MX).  This memo defines an Experimental Protocol for the Internet community.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='2052'/>
+<seriesInfo name='DOI' value='10.17487/RFC2052'/>
+</reference>
+
+
+
+<reference  anchor="RFC7553" target='https://www.rfc-editor.org/info/rfc7553'>
+<front>
+<title>The Uniform Resource Identifier (URI) DNS Resource Record</title>
+<author initials='P.' surname='Faltstrom' fullname='P. Faltstrom'><organization /></author>
+<author initials='O.' surname='Kolkman' fullname='O. Kolkman'><organization /></author>
+<date year='2015' month='June' />
+<abstract><t>This document describes the already registered DNS resource record (RR) type, called the Uniform Resource Identifier (URI) RR, that is used for publishing mappings from hostnames to URIs.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='7553'/>
+<seriesInfo name='DOI' value='10.17487/RFC7553'/>
+</reference>
+
 
 
 <reference anchor="I-D.bellis-dnsop-http-record">
@@ -318,77 +344,77 @@ when, and only when, they appear in all capitals, as shown here.</t>
   </back>
 
 <!-- ##markdown-source:
-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
-U3nLHAAA
+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
 
 -->
 

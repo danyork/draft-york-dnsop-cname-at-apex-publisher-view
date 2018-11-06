@@ -85,11 +85,11 @@ However, this document is discussing CDNs where the publisher retains control of
 
 # CNAME works for subdomains
 
-For websites using a subdomain such as "www", this is simply done in DNS using CNAME:
+For websites using a subdomain such as "www", this is simply done in DNS using CNAME and pointing to a target URL provided by the CDN:
 
     www.example.com  300  IN  CNAME a123qkt5y7xxb3df8.example-cdn.net
 
-Now all web traffic to www.example.com is redirected to the CDN address. The CDN returns the appropriate records. All is fine.
+Now all web traffic to www.example.com is redirected to the CDN address. The CDN returns the appropriate A and AAAA records. This all works and the browser connects to the site hosted on one of the CDN edge servers.
 
 # CNAME at apex does not work
     
