@@ -4,12 +4,12 @@
 
 DNSOP Working Group                                              D. York
 Internet-Draft                                          Internet Society
-Intended status: Informational                         November 05, 2018
-Expires: May 9, 2019
+Intended status: Informational                         November 06, 2018
+Expires: May 10, 2019
 
 
             CNAME at apex - a website publisher perspective
-            draft-york-dnsop-cname-at-apex-publisher-view-00
+            draft-york-dnsop-cname-at-apex-publisher-view-01
 
 Abstract
 
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 9, 2019.
+   This Internet-Draft will expire on May 10, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-York                       Expires May 9, 2019                  [Page 1]
+York                      Expires May 10, 2019                  [Page 1]
 
 Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
 
@@ -62,19 +62,23 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  The Challenge . . . . . . . . . . . . . . . . . . . . . . . .   3
+     2.1.  Note  . . . . . . . . . . . . . . . . . . . . . . . . . .   4
    3.  CNAME works for subdomains  . . . . . . . . . . . . . . . . .   4
    4.  CNAME at apex does not work . . . . . . . . . . . . . . . . .   4
-   5.  Propriety solutions . . . . . . . . . . . . . . . . . . . . .   4
-   6.  Existing and proposed solutions . . . . . . . . . . . . . . .   4
-   7.  Past discussion . . . . . . . . . . . . . . . . . . . . . . .   5
-   8.  Conventions and Definitions . . . . . . . . . . . . . . . . .   5
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .   5
-     11.2.  Informative References . . . . . . . . . . . . . . . . .   6
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   5.  Proprietary solutions . . . . . . . . . . . . . . . . . . . .   4
+     5.1.  Proprietary lockin  . . . . . . . . . . . . . . . . . . .   4
+     5.2.  Restriction on using multiple CDNs  . . . . . . . . . . .   5
+   6.  Existing and proposed solutions . . . . . . . . . . . . . . .   5
+   7.  Author opinion  . . . . . . . . . . . . . . . . . . . . . . .   5
+   8.  Past discussion . . . . . . . . . . . . . . . . . . . . . . .   5
+   9.  Conventions and Definitions . . . . . . . . . . . . . . . . .   6
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .   6
+     12.2.  Informative References . . . . . . . . . . . . . . . . .   6
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   7
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -98,21 +102,20 @@ Table of Contents
    domain name without the "www" or other subdomains to reference their
    public website.
 
-   The expectation is that: 1) users will be able to simply enter
-   "example.com" into their browser; and 2) users will only see
-   "example.com" in their address bar (if URLs are even displayed).
+   The expectations from the marketing / communications teams are that:
+
+   1.  users will be able to simply enter "example.com" into their
+       browser; and
 
 
 
-
-
-
-
-
-York                       Expires May 9, 2019                  [Page 2]
+York                      Expires May 10, 2019                  [Page 2]
 
 Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
 
+
+   2.  users will only see "example.com" in their address bar (if URLs
+       are even displayed).
 
 2.  The Challenge
 
@@ -149,26 +152,36 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
 
    The DNS issue is that the website publisher is told to simply
    redirect all traffic to some address within the CDN along the lines
-   of:
+   of one of these:
 
-   a123qkt5y7xxb3df8.example-cdn.net
+   o  a123qkt5y7xxb3df8.example-cdn.net
+
+   o  (companyname).example-cdn.net
+
+   o  (companyname).(location).example-cdn.net
+
+   o  some-random-string.example-cdn.net
+
+
+
+
+York                      Expires May 10, 2019                  [Page 3]
+
+Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
+
 
    The CDN then performs its service of providing the requesting client
    with the A or AAAA record most appropriate for the client's network/
    geographic location.
 
-   NOTE: Some CDNs require that they manage the DNS services for the
-   target domain name.  The publisher must designate the CDN's DNS
-   servers as the authoritative name servers (NS records) for the
-   domain.  At that point the CDN handles all of this directly.
+2.1.  Note
 
-
-
-
-York                       Expires May 9, 2019                  [Page 3]
-
-Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
-
+   Some CDNs require that they manage the DNS services for the target
+   domain name.  The publisher must designate the CDN's DNS servers as
+   the authoritative name servers (NS records) for the domain.  At that
+   point the CDN handles all of the name resolution directly and
+   dynamically returns the A and AAAA records back to the client web
+   browser.  The browser has no idea that a CDN is in usage.
 
    However, this document is discussing CDNs where the publisher retains
    control of serving out DNS records for the domain.
@@ -189,7 +202,7 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
    does not work at the apex of a domain.  A primary reason is section
    3.6.2 of [RFC1034].
 
-5.  Propriety solutions
+5.  Proprietary solutions
 
    To respond to this business demand, various DNS operators (including
    CDN providers who also act as DNS operators) have developed
@@ -198,11 +211,22 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
    or "CNAME flattening", these techniques do work and allow the sites
    to be accessible on the CDN via the simple domain name.
 
+5.1.  Proprietary lockin
+
    However, because of the proprietary nature, they then lock the
    website publisher into using that DNS operator / CDN.  The website
    publisher does not have an easily ability to move to a different DNS
    operator / CDN unless the new DNS operator / CDN can also provide a
    mechanism to allow the non-www domain usage.
+
+
+
+York                      Expires May 10, 2019                  [Page 4]
+
+Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
+
+
+5.2.  Restriction on using multiple CDNs
 
    Additionally, many large web site publishers use (or want to use)
    multiple CDNs to achieve various business objectives, including
@@ -212,21 +236,24 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
 
 6.  Existing and proposed solutions
 
-   Various email discussions have indicated that existing mechanisms
-   such as SRV and URI records can address this issue, although
-   deployment/adoption concerns have been raised.  Multiple solutions
-   have been proposed for discussion at IETF 103, including:
+   Various email discussions have indicated that existing mechanisms can
+   address this issue, although deployment/adoption concerns have been
+   raised.  Existing solutions include:
+
+   o  SRV record - [RFC2052]
+
+   o  URI record - [RFC7553]
+
+   o  NAPTR-based solutions (need to understand more)
+
+   Multiple solutions have been proposed for discussion at IETF 103,
+   including:
 
    o  [I-D.ietf-dnsop-aname]
 
-
-
-York                       Expires May 9, 2019                  [Page 4]
-
-Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
-
-
    o  [I-D.bellis-dnsop-http-record]
+
+7.  Author opinion
 
    As a website publisher, I have a business objective to meet - make
    the site accessible over "example.com" versus "www.example.com".  As
@@ -234,10 +261,11 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
    not partial to any specific solution.  I just want it to work and not
    lock me in to specific proprietary solutions.
 
-7.  Past discussion
+8.  Past discussion
 
    There was a lengthy discussion of this topic in the DNSOP session at
-   IETF 102.  Slides from that session are useful for more context:
+   IETF 102 in Montreal in 2018.  Slides from that session are useful
+   for more context:
 
    o  https://datatracker.ietf.org/meeting/102/materials/slides-102-
       dnsop-somethingapex-02
@@ -245,7 +273,16 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
    o  https://datatracker.ietf.org/meeting/102/materials/slides-102-
       dnsop-cnameapex-00
 
-8.  Conventions and Definitions
+
+
+
+
+York                      Expires May 10, 2019                  [Page 5]
+
+Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
+
+
+9.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -253,17 +290,17 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-9.  Security Considerations
+10.  Security Considerations
 
    TODO add any security considerations.
 
-10.  IANA Considerations
+11.  IANA Considerations
 
    This document has no IANA actions.
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -274,15 +311,7 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-
-York                       Expires May 9, 2019                  [Page 5]
-
-Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
-
-
-11.2.  Informative References
+12.2.  Informative References
 
    [I-D.bellis-dnsop-http-record]
               Bellis, R., "A DNS Resource Record for HTTP", draft-
@@ -297,6 +326,17 @@ Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
    [RFC1034]  Mockapetris, P., "Domain names - concepts and facilities",
               STD 13, RFC 1034, DOI 10.17487/RFC1034, November 1987,
               <https://www.rfc-editor.org/info/rfc1034>.
+
+   [RFC2052]  "*** BROKEN REFERENCE ***".
+
+   [RFC7553]  "*** BROKEN REFERENCE ***".
+
+
+
+York                      Expires May 10, 2019                  [Page 6]
+
+Internet-DraftCNAME at apex - a website publisher perspectiNovember 2018
+
 
 Acknowledgments
 
@@ -333,4 +373,20 @@ Author's Address
 
 
 
-York                       Expires May 9, 2019                  [Page 6]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+York                      Expires May 10, 2019                  [Page 7]

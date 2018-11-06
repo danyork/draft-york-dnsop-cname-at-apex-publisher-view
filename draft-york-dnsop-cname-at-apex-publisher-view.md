@@ -1,7 +1,7 @@
 ---
 title: CNAME at apex - a website publisher perspective
 abbrev: CNAME at apex - a website publisher perspective
-docname: draft-york-dnsop-cname-at-apex-publisher-view-00
+docname: draft-york-dnsop-cname-at-apex-publisher-view-01
 category: info
 
 ipr: trust200902
@@ -45,8 +45,10 @@ reasons for this change, including the simplicity of saying or writing the name 
 
 Regardless of the reasons, the fact is that many website publishers and marketing/communications teams are moving to using only the domain name without the "www" or other subdomains to reference their public website. 
 
-The expectation is that: 1) users will be able to simply enter "example.com" into their
-browser; and 2) users will only see "example.com" in their address bar (if URLs are even displayed).
+The expectations from the marketing / communications teams are that: 
+
+1. users will be able to simply enter "example.com" into their browser; and
+2. users will only see "example.com" in their address bar (if URLs are even displayed).
 
 # The Challenge
 
@@ -66,13 +68,20 @@ Publishers use CDNs for a variety of reasons, including:
 
 While there may be many non-CDN mechanisms to address those reasons, website publishers in 2018 are increasingly using CDNs as a simple business solution.
 
-The DNS issue is that the website publisher is told to simply redirect all traffic to some address within the CDN along the lines of:
+The DNS issue is that the website publisher is told to simply redirect all traffic to some address within the CDN along the lines of one of these:
 
-    a123qkt5y7xxb3df8.example-cdn.net
+* a123qkt5y7xxb3df8.example-cdn.net
+* (companyname).example-cdn.net
+* (companyname).(location).example-cdn.net
+* some-random-string.example-cdn.net
 
 The CDN then performs its service of providing the requesting client with the A or AAAA record most appropriate for the client's network/geographic location.
 
-NOTE: Some CDNs require that they manage the DNS services for the target domain name. The publisher must designate the CDN's DNS servers as the authoritative name servers (NS records) for the domain. At that point the CDN handles all of this directly. However, this document is discussing CDNs where the publisher retains control of serving out DNS records for the domain.
+## Note
+
+Some CDNs require that they manage the DNS services for the target domain name. The publisher must designate the CDN's DNS servers as the authoritative name servers (NS records) for the domain. At that point the CDN handles all of the name resolution directly and dynamically returns the A and AAAA records back to the client web browser. The browser has no idea that a CDN is in usage.
+
+However, this document is discussing CDNs where the publisher retains control of serving out DNS records for the domain.
 
 # CNAME works for subdomains
 
@@ -86,26 +95,38 @@ Now all web traffic to www.example.com is redirected to the CDN address. The CDN
     
 For reasons outlined in Appendix C of {{?I-D.ietf-dnsop-aname}} CNAME does not work at the apex of a domain. A primary reason is section 3.6.2 of {{?RFC1034}}.
 
-# Propriety solutions
+# Proprietary solutions
 
 To respond to this business demand, various DNS operators (including CDN providers who also act as DNS operators) have developed proprietary solutions (also referred to as "stupid DNS tricks" within the DNSOP community). Under various names such as "URL flattening" or "CNAME flattening", these techniques do work and allow the sites to be accessible on the CDN via the simple domain name.
 
+## Proprietary lockin
+
 However, because of the proprietary nature, they then lock the website publisher into using that DNS operator / CDN.  The website publisher does not have an easily ability to move to a different DNS operator / CDN unless the new DNS operator / CDN can also provide a mechanism to allow the non-www domain usage.
+
+## Restriction on using multiple CDNs
 
 Additionally, many large web site publishers use (or want to use) multiple CDNs to achieve various business objectives, including resiliency / availability. The lack of a standard mechanism to do this "CNAME at apex" functionality limits the ability to explore multi-CDN options.
 
 # Existing and proposed solutions
 
-Various email discussions have indicated that existing mechanisms such as SRV and URI records can address this issue, although deployment/adoption concerns have been raised. Multiple solutions have been proposed for discussion at IETF 103, including:
+Various email discussions have indicated that existing mechanisms can address this issue, although deployment/adoption concerns have been raised. Existing solutions include:
+
+* SRV record - {{?RFC2052}}
+* URI record - {{?RFC7553}}
+* NAPTR-based solutions (need to understand more)
+
+Multiple solutions have been proposed for discussion at IETF 103, including:
 
 * {{?I-D.ietf-dnsop-aname}}
 * {{?I-D.bellis-dnsop-http-record}}
+
+# Author opinion
 
 As a website publisher, I have a business objective to meet - make the site accessible over "example.com" versus "www.example.com". As long as this can happen in a manner that can be widely deployed, I am not partial to any specific solution. I just want it to work and not lock me in to specific proprietary solutions.
 
 # Past discussion
 
-There was a lengthy discussion of this topic in the DNSOP session at IETF 102. Slides from that session are useful for more context:
+There was a lengthy discussion of this topic in the DNSOP session at IETF 102 in Montreal in 2018. Slides from that session are useful for more context:
 
 * https://datatracker.ietf.org/meeting/102/materials/slides-102-dnsop-somethingapex-02
 * https://datatracker.ietf.org/meeting/102/materials/slides-102-dnsop-cnameapex-00

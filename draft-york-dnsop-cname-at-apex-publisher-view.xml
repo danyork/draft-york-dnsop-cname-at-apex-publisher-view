@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-york-dnsop-cname-at-apex-publisher-view-00" category="info">
+<rfc ipr="trust200902" docName="draft-york-dnsop-cname-at-apex-publisher-view-01" category="info">
 
   <front>
     <title abbrev="CNAME at apex - a website publisher perspective">CNAME at apex - a website publisher perspective</title>
@@ -21,7 +21,7 @@
       </address>
     </author>
 
-    <date year="2018" month="November" day="05"/>
+    <date year="2018" month="November" day="06"/>
 
     <area>General</area>
     <workgroup>DNSOP Working Group</workgroup>
@@ -56,8 +56,12 @@ reasons for this change, including the simplicity of saying or writing the name 
 
 <t>Regardless of the reasons, the fact is that many website publishers and marketing/communications teams are moving to using only the domain name without the “www” or other subdomains to reference their public website.</t>
 
-<t>The expectation is that: 1) users will be able to simply enter “example.com” into their
-browser; and 2) users will only see “example.com” in their address bar (if URLs are even displayed).</t>
+<t>The expectations from the marketing / communications teams are that:</t>
+
+<t><list style="numbers">
+  <t>users will be able to simply enter “example.com” into their browser; and</t>
+  <t>users will only see “example.com” in their address bar (if URLs are even displayed).</t>
+</list></t>
 
 </section>
 <section anchor="the-challenge" title="The Challenge">
@@ -80,16 +84,24 @@ the zone apex.</t>
 
 <t>While there may be many non-CDN mechanisms to address those reasons, website publishers in 2018 are increasingly using CDNs as a simple business solution.</t>
 
-<t>The DNS issue is that the website publisher is told to simply redirect all traffic to some address within the CDN along the lines of:</t>
+<t>The DNS issue is that the website publisher is told to simply redirect all traffic to some address within the CDN along the lines of one of these:</t>
 
-<figure><artwork><![CDATA[
-a123qkt5y7xxb3df8.example-cdn.net
-]]></artwork></figure>
+<t><list style="symbols">
+  <t>a123qkt5y7xxb3df8.example-cdn.net</t>
+  <t>(companyname).example-cdn.net</t>
+  <t>(companyname).(location).example-cdn.net</t>
+  <t>some-random-string.example-cdn.net</t>
+</list></t>
 
 <t>The CDN then performs its service of providing the requesting client with the A or AAAA record most appropriate for the client’s network/geographic location.</t>
 
-<t>NOTE: Some CDNs require that they manage the DNS services for the target domain name. The publisher must designate the CDN’s DNS servers as the authoritative name servers (NS records) for the domain. At that point the CDN handles all of this directly. However, this document is discussing CDNs where the publisher retains control of serving out DNS records for the domain.</t>
+<section anchor="note" title="Note">
 
+<t>Some CDNs require that they manage the DNS services for the target domain name. The publisher must designate the CDN’s DNS servers as the authoritative name servers (NS records) for the domain. At that point the CDN handles all of the name resolution directly and dynamically returns the A and AAAA records back to the client web browser. The browser has no idea that a CDN is in usage.</t>
+
+<t>However, this document is discussing CDNs where the publisher retains control of serving out DNS records for the domain.</t>
+
+</section>
 </section>
 <section anchor="cname-works-for-subdomains" title="CNAME works for subdomains">
 
@@ -107,30 +119,47 @@ www.example.com  300  IN  CNAME a123qkt5y7xxb3df8.example-cdn.net
 <t>For reasons outlined in Appendix C of <xref target="I-D.ietf-dnsop-aname"/> CNAME does not work at the apex of a domain. A primary reason is section 3.6.2 of <xref target="RFC1034"/>.</t>
 
 </section>
-<section anchor="propriety-solutions" title="Propriety solutions">
+<section anchor="proprietary-solutions" title="Proprietary solutions">
 
 <t>To respond to this business demand, various DNS operators (including CDN providers who also act as DNS operators) have developed proprietary solutions (also referred to as “stupid DNS tricks” within the DNSOP community). Under various names such as “URL flattening” or “CNAME flattening”, these techniques do work and allow the sites to be accessible on the CDN via the simple domain name.</t>
 
+<section anchor="proprietary-lockin" title="Proprietary lockin">
+
 <t>However, because of the proprietary nature, they then lock the website publisher into using that DNS operator / CDN.  The website publisher does not have an easily ability to move to a different DNS operator / CDN unless the new DNS operator / CDN can also provide a mechanism to allow the non-www domain usage.</t>
+
+</section>
+<section anchor="restriction-on-using-multiple-cdns" title="Restriction on using multiple CDNs">
 
 <t>Additionally, many large web site publishers use (or want to use) multiple CDNs to achieve various business objectives, including resiliency / availability. The lack of a standard mechanism to do this “CNAME at apex” functionality limits the ability to explore multi-CDN options.</t>
 
 </section>
+</section>
 <section anchor="existing-and-proposed-solutions" title="Existing and proposed solutions">
 
-<t>Various email discussions have indicated that existing mechanisms such as SRV and URI records can address this issue, although deployment/adoption concerns have been raised. Multiple solutions have been proposed for discussion at IETF 103, including:</t>
+<t>Various email discussions have indicated that existing mechanisms can address this issue, although deployment/adoption concerns have been raised. Existing solutions include:</t>
+
+<t><list style="symbols">
+  <t>SRV record - <xref target="RFC2052"/></t>
+  <t>URI record - <xref target="RFC7553"/></t>
+  <t>NAPTR-based solutions (need to understand more)</t>
+</list></t>
+
+<t>Multiple solutions have been proposed for discussion at IETF 103, including:</t>
 
 <t><list style="symbols">
   <t><xref target="I-D.ietf-dnsop-aname"/></t>
   <t><xref target="I-D.bellis-dnsop-http-record"/></t>
 </list></t>
 
+</section>
+<section anchor="author-opinion" title="Author opinion">
+
 <t>As a website publisher, I have a business objective to meet - make the site accessible over “example.com” versus “www.example.com”. As long as this can happen in a manner that can be widely deployed, I am not partial to any specific solution. I just want it to work and not lock me in to specific proprietary solutions.</t>
 
 </section>
 <section anchor="past-discussion" title="Past discussion">
 
-<t>There was a lengthy discussion of this topic in the DNSOP session at IETF 102. Slides from that session are useful for more context:</t>
+<t>There was a lengthy discussion of this topic in the DNSOP session at IETF 102 in Montreal in 2018. Slides from that session are useful for more context:</t>
 
 <t><list style="symbols">
   <t>https://datatracker.ietf.org/meeting/102/materials/slides-102-dnsop-somethingapex-02</t>
@@ -250,6 +279,8 @@ when, and only when, they appear in all capitals, as shown here.</t>
 <seriesInfo name='DOI' value='10.17487/RFC1034'/>
 </reference>
 
+<reference anchor="RFC2052"> <front> <title>*** BROKEN REFERENCE ***</title> <author> <organization/> </author> <date/> </front> </reference>
+<reference anchor="RFC7553"> <front> <title>*** BROKEN REFERENCE ***</title> <author> <organization/> </author> <date/> </front> </reference>
 
 
 <reference anchor="I-D.bellis-dnsop-http-record">
@@ -287,72 +318,77 @@ when, and only when, they appear in all capitals, as shown here.</t>
   </back>
 
 <!-- ##markdown-source:
-H4sIAEF231sAA61ZbW/kthH+rl/Bbj70XFjrl8vrFkW7tZ3EwJ3t2r4EQVEU
-lMTdZSyJCkntWjncf+8zQ+pl1z4UBXoIkD2KHM7LMzPP8NI0Tbz2pVqIi5vl
-+yshvZCNehapkGKnMqe9Ek2bldptlBWNsq5Ruddblcgss2r7v58rTF7LChcW
-Vq582hn7lBa1M03K66n0KUlKh9PpVqtdenqa5NKrtbHdQuh6ZZJEN3YhvG2d
-Pz89/e70PJFWyYX4QdXKyjLZQfLamrZZiMubh9s78TMWdL0WP9Bi8qQ67CgW
-4rr2ytbKp5ekUJI4L+vi37I0NZTslEsavRD/9CY/Fs5Yb9XK4VdX0Y9/JYls
-/cbYRSLSROCPrh3um4tfcBkvBGMvZT0uGbuWtf5dem3q8X7xYHKtfMdbVCV1
-ietx5G/amXyOM0lSG1tJ8iKuE/ffX5yfnX23gCPgjuFDkqQpopA5b2UOcx7h
-QiU20olMqRrhKaVdKyEr09ZemJUotMtb56ALTpnWC79RYrYX1pnQzrUq2Wm/
-0TVveMWlc/G40S7EVTTWbHWhHG+exJ9uhGdFMqIDK1Vbet2UqseOi6rsNl0A
-WFrqJyVWbZ2T02SpfSfoLuW0lVkJOAa9GYQQKEVh4MJa/I7L5sEnlS4K7Ey+
-IJdbU7QsK0m+t6biw0rashOF7ByJoJWfVXY84piXBw3XAWc4YWAfsFnQEW0T
-vpcP5UMutI7cxJ7d7XYz4dosKHgsEBnsp+W5epYVvDDPTTWD0te1sCpXCFMH
-1ZyoZN3tgcchrnBpZbZ0uYHrTdPsXwQsQ8hKWYv1BHtYR8E69splnXAaF3d8
-LjqOcDsot6eYCJBCtom6rRRC7xJkniN9AEQIQWTyjazXEKDrvGyLXie+RucU
-PbjSyY4+4MjOat/voYtZbVk6I1wFFwMksiiscgAxOQJQrUymgZfMmp1DZObi
-eoVsaVkrQsW6JnkD2outsl47VZE3yVPaNaUEhhAAqAFDgX5tGyQ4fFqWO1oj
-eTk+VBLYO3DNoBBfYFnhyuDyrXaaVdNBoejZ1ql9N/IJCtgYrLlYFoUOAC87
-KjcVZ8RgZfC5EahNdKfbmF3vtVVbluLD/TvxBu5UW8r0uuthjPUjvs+ZCTQQ
-pVEWq11SqtyrtbRIFDdkQQzucbgIVYWO+g1SjhH5ot674A1pnxRF9QTmVm2t
-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
+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
+U3nLHAAA
 
 -->
 
